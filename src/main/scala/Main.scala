@@ -31,9 +31,7 @@ def printUserChoice(userChoice: UserChoice): Unit = {
 
   val input: Int = offerUserChoice(userChoice)
 
-  val choices = userChoice.choices
-  val choice = choices(input - 1)
-  val choiceAction = choice._2
+  val (_, choiceAction) = userChoice.choices(input - 1)
 
   choiceAction()
 }
@@ -53,18 +51,9 @@ def chooseSize(): Unit = {
   )
   val input = offerUserChoice(userChoice)
 
-  if (1 == input) {
-    println("Chosen: Small")
-    chooseToppings()
-  }
-  else if (2 == input) {
-    println("Chosen: Medium")
-    chooseToppings()
-  }
-  else {
-    println("Chosen: Large")
-    chooseToppings()
-  }
+  val (_, choiceAction) = userChoice.choices(input - 1)
+
+  choiceAction()
 }
 
 def chooseToppings(): Unit = {
@@ -80,19 +69,7 @@ def chooseToppings(): Unit = {
   )
   val input = offerUserChoice(userChoice)
 
-  if (1 == input) {
-    println("Chosen topping: Corn")
-  }
-  else if (2 == input) {
-    println("Chosen topping: Pineapple")
-  }
-  else if (3 == input) {
-    println("Chosen topping: Onion")
-  }
-  else if (4 == input) {
-    println("Chosen topping: Ham")
-  }
-  else {
-    println("Chosen topping: Mushrooms")
-  }
+  val (_, choiceAction) = userChoice.choices(input - 1)
+
+  choiceAction()
 }
