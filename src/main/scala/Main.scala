@@ -1,9 +1,14 @@
 class UserChoice(
   val text: String,
-  val choices: List[(String, () => Unit)]
+  val choices: List[(String, (Pizza) => Unit)]
 )
 
-def offerUserChoice(userChoice: UserChoice): () => Unit = {
+class Pizza(
+  val size: String,
+  val topping: String
+)
+
+def offerUserChoice(userChoice: UserChoice): (Pizza) => Unit = {
   printUserChoice(userChoice)
 
   val input = Console.in.readLine().toInt
@@ -31,39 +36,57 @@ def printUserChoice(userChoice: UserChoice): Unit = {
 
   val choiceAction = offerUserChoice(userChoice)
 
-  choiceAction()
+  choiceAction(Pizza("", ""))
 }
 
-def exit(): Unit = {
+def exit(pizza: Pizza): Unit = {
   println("bye")
 }
 
-def chooseSize(): Unit = {
+def chooseSize(pizza: Pizza): Unit = {
   val userChoice = UserChoice(
     "Which size?",
     List(
-      ("1: Small", chooseToppings),
-      ("2: Medium", chooseToppings),
-      ("3: Large", chooseToppings)
+      ("1: Small", makeSmallPizza),
+      ("2: Medium", makeMediumPizza),
+      ("3: Large", makeLargePizza)
     )
   )
   val choiceAction = offerUserChoice(userChoice)
 
-  choiceAction()
+  choiceAction(pizza)
 }
 
-def chooseToppings(): Unit = {
+def makeSmallPizza(pizza: Pizza): Unit = {
+  println("Making small pizza")
+  val smallPizza = Pizza("Small", "")
+  chooseToppings(smallPizza)
+}
+
+def makeMediumPizza(pizza: Pizza): Unit = {
+  println("Making medium pizza")
+  val mediumPizza = Pizza("Medium", "")
+  chooseToppings(mediumPizza)
+}
+
+def makeLargePizza(pizza: Pizza): Unit = {
+  println("Making large pizza")
+  val largePizza = Pizza("Large", "")
+  chooseToppings(largePizza)
+}
+
+def chooseToppings(pizza: Pizza): Unit = {
   val userChoice = UserChoice(
     "What toppings would you like?",
     List(
-      ("1: Corn", () => ()),
-      ("2: Pineapple", () => ()),
-      ("3: Onion", () => ()),
-      ("4: Ham", () => ()),
-      ("5: Mushrooms", () => ())
+      ("1: Corn", (pizza) => ()),
+      ("2: Pineapple", (pizza) => ()),
+      ("3: Onion", (pizza) => ()),
+      ("4: Ham", (pizza) => ()),
+      ("5: Mushrooms", (pizza) => ())
     )
   )
   val choiceAction = offerUserChoice(userChoice)
 
-  choiceAction()
+  choiceAction(pizza)
 }
