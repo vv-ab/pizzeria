@@ -3,12 +3,12 @@ class UserChoice(
   val choices: List[(String, () => Unit)]
 )
 
-def offerUserChoice(userChoice: UserChoice): Int = {
+def offerUserChoice(userChoice: UserChoice): () => Unit = {
   printUserChoice(userChoice)
 
   val input = Console.in.readLine().toInt
-
-  input
+  val (_, choiceAction) = userChoice.choices(input - 1)
+  choiceAction
 }
 
 
@@ -29,9 +29,7 @@ def printUserChoice(userChoice: UserChoice): Unit = {
       ("2: Exit", exit)
     ))
 
-  val input: Int = offerUserChoice(userChoice)
-
-  val (_, choiceAction) = userChoice.choices(input - 1)
+  val choiceAction = offerUserChoice(userChoice)
 
   choiceAction()
 }
@@ -49,9 +47,7 @@ def chooseSize(): Unit = {
       ("3: Large", chooseToppings)
     )
   )
-  val input = offerUserChoice(userChoice)
-
-  val (_, choiceAction) = userChoice.choices(input - 1)
+  val choiceAction = offerUserChoice(userChoice)
 
   choiceAction()
 }
@@ -67,9 +63,7 @@ def chooseToppings(): Unit = {
       ("5: Mushrooms", () => ())
     )
   )
-  val input = offerUserChoice(userChoice)
-
-  val (_, choiceAction) = userChoice.choices(input - 1)
+  val choiceAction = offerUserChoice(userChoice)
 
   choiceAction()
 }
