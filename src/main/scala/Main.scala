@@ -49,13 +49,10 @@ def printUserChoice(userChoice: UserChoice): Unit = {
 
   val choiceAction = offerUserChoice(userChoice)
 
-  val pizza = choiceAction(Pizza(Size.Undefined, List(Topping("", 0))))
-  println(s"Your pizza: ${pizza.size}${pizza.toppings.map({ topping => topping.name}).mkString(", ")}")
-  var price = 0
-  price += pizza.size.price
-  for (topping <- pizza.toppings) {
-    price += topping.price
-  }
+  val pizza = choiceAction(Pizza(Size.Undefined, List()))
+  println(s"Your pizza: ${pizza.size} ${pizza.toppings.map({ topping => topping.name }).mkString(", ")}")
+  val toppingPrice = pizza.toppings.map({ topping => topping.price }).sum
+  val price = pizza.size.price + toppingPrice
   println(s"Your pizza is: $price €")
 }
 
