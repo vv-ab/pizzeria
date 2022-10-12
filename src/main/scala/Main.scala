@@ -5,7 +5,7 @@ class UserChoice(
 
 class Pizza(
   val size: Size,
-  val topping: Topping
+  val toppings: List[Topping]
 )
 
 enum Size(val price: Int) {
@@ -49,9 +49,13 @@ def printUserChoice(userChoice: UserChoice): Unit = {
 
   val choiceAction = offerUserChoice(userChoice)
 
-  val pizza = choiceAction(Pizza(Size.Undefined, Topping("", 0)))
-  println(s"Your pizza: ${pizza.size}, ${pizza.topping.name}")
-  val price = pizza.size.price + pizza.topping.price
+  val pizza = choiceAction(Pizza(Size.Undefined, List(Topping("", 0))))
+  println(s"Your pizza: ${pizza.size}${pizza.toppings.map({ topping => topping.name}).mkString(", ")}")
+  var price = 0
+  price += pizza.size.price
+  for (topping <- pizza.toppings) {
+    price += topping.price
+  }
   println(s"Your pizza is: $price €")
 }
 
@@ -76,19 +80,19 @@ def chooseSize(pizza: Pizza): Pizza = {
 
 def makeSmallPizza(pizza: Pizza): Pizza = {
   println("Making small pizza")
-  val smallPizza = Pizza(Size.Small, pizza.topping)
+  val smallPizza = Pizza(Size.Small, pizza.toppings)
   chooseToppings(smallPizza)
 }
 
 def makeMediumPizza(pizza: Pizza): Pizza = {
   println("Making medium pizza")
-  val mediumPizza = Pizza(Size.Medium, pizza.topping)
+  val mediumPizza = Pizza(Size.Medium, pizza.toppings)
   chooseToppings(mediumPizza)
 }
 
 def makeLargePizza(pizza: Pizza): Pizza = {
   println("Making large pizza")
-  val largePizza = Pizza(Size.Large, pizza.topping)
+  val largePizza = Pizza(Size.Large, pizza.toppings)
   chooseToppings(largePizza)
 }
 
@@ -100,7 +104,8 @@ def chooseToppings(pizza: Pizza): Pizza = {
       ("2: Pineapple", addPineapple),
       ("3: Onion", addOnion),
       ("4: Ham", addHam),
-      ("5: Mushrooms", addMushrooms)
+      ("5: Mushrooms", addMushrooms),
+      ("6: Finish", finish)
     )
   )
   val choiceAction = offerUserChoice(userChoice)
@@ -110,30 +115,34 @@ def chooseToppings(pizza: Pizza): Pizza = {
 
 def addCorn(pizza: Pizza): Pizza = {
   println("Adding Corn")
-  val pizzaWithCorn = Pizza(pizza.size, Topping("Corn", 1))
-  pizzaWithCorn
+  val pizzaWithCorn = Pizza(pizza.size, pizza.toppings :+ Topping("Corn", 1))
+  chooseToppings(pizzaWithCorn)
 }
 
 def addPineapple(pizza: Pizza): Pizza = {
   println("Adding Pineapple")
-  val pizzaWithPineapple = Pizza(pizza.size, Topping("Pineapple", 2))
-  pizzaWithPineapple
+  val pizzaWithPineapple = Pizza(pizza.size, pizza.toppings :+ Topping("Pineapple", 2))
+  chooseToppings(pizzaWithPineapple)
 }
 
 def addOnion(pizza: Pizza): Pizza = {
   println("Adding Onion")
-  val pizzaWithOnion = Pizza(pizza.size, Topping("Onion", 1))
-  pizzaWithOnion
+  val pizzaWithOnion = Pizza(pizza.size, pizza.toppings :+ Topping("Onion", 1))
+  chooseToppings(pizzaWithOnion)
 }
 
 def addHam(pizza: Pizza): Pizza = {
   println("Adding Ham")
-  val pizzaWithHam = Pizza(pizza.size, Topping("Ham", 3))
-  pizzaWithHam
+  val pizzaWithHam = Pizza(pizza.size, pizza.toppings :+ Topping("Ham", 3))
+  chooseToppings(pizzaWithHam)
 }
 
 def addMushrooms(pizza: Pizza): Pizza = {
   println("Adding Mushrooms")
-  val pizzaWithMushrooms = Pizza(pizza.size, Topping("Mushrooms", 2))
-  pizzaWithMushrooms
+  val pizzaWithMushrooms = Pizza(pizza.size, pizza.toppings :+ Topping("Mushrooms", 2))
+  chooseToppings(pizzaWithMushrooms)
+}
+
+def finish(pizza: Pizza): Pizza = {
+  pizza
 }
