@@ -79,14 +79,41 @@ def chooseToppings(pizza: Pizza): Unit = {
   val userChoice = UserChoice(
     "What toppings would you like?",
     List(
-      ("1: Corn", (pizza) => ()),
-      ("2: Pineapple", (pizza) => ()),
-      ("3: Onion", (pizza) => ()),
-      ("4: Ham", (pizza) => ()),
-      ("5: Mushrooms", (pizza) => ())
+      ("1: Corn", addCorn),
+      ("2: Pineapple", addPineapple),
+      ("3: Onion", addOnion),
+      ("4: Ham", addHam),
+      ("5: Mushrooms", addMushrooms)
     )
   )
   val choiceAction = offerUserChoice(userChoice)
 
   choiceAction(pizza)
+}
+
+def addCorn(pizza: Pizza): Unit = {
+  println("Adding Corn")
+  val pizzaWithCorn = Pizza(pizza.size, "Corn")
+
+}
+
+def addPineapple(pizza: Pizza): Unit = {
+  println("Adding Pineapple")
+  val pizzaWithPineapple = Pizza(pizza.size, "Pineapple")
+}
+
+def addOnion(pizza: Pizza): Unit = {
+  println("Adding Onion")
+  val pizzaWithOnion = Pizza(pizza.size, "Onion")
+
+}
+
+def addHam(pizza: Pizza): Unit = {
+  println("Adding Ham")
+  val pizzaWithHam = Pizza(pizza.size, "Ham")
+}
+
+def addMushrooms(pizza: Pizza): Unit = {
+  println("Adding Mushrooms")
+  val pizzaWithMushrooms = Pizza(pizza.size, "Mushrooms")
 }
