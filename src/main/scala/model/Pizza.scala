@@ -1,6 +1,6 @@
 package model
 
-class Pizza(
- val size: Size,
- val toppings: List[Topping]
+case class Pizza(
+  size: Size,
+  toppings: List[Topping]
 )

@@ -41,19 +41,19 @@ def chooseSize(pizza: Pizza): Pizza = {
 
 def makeSmallPizza(pizza: Pizza): Pizza = {
   println("Making small pizza")
-  val smallPizza = Pizza(Size.Small, pizza.toppings)
+  val smallPizza = pizza.copy(size = Size.Small)
   chooseToppings(smallPizza)
 }
 
 def makeMediumPizza(pizza: Pizza): Pizza = {
   println("Making medium pizza")
-  val mediumPizza = Pizza(Size.Medium, pizza.toppings)
+  val mediumPizza = pizza.copy(size = Size.Medium)
   chooseToppings(mediumPizza)
 }
 
 def makeLargePizza(pizza: Pizza): Pizza = {
   println("Making large pizza")
-  val largePizza = Pizza(Size.Large, pizza.toppings)
+  val largePizza = pizza.copy(size = Size.Large)
   chooseToppings(largePizza)
 }
 
@@ -76,31 +76,31 @@ def chooseToppings(pizza: Pizza): Pizza = {
 
 def addCorn(pizza: Pizza): Pizza = {
   println("Adding Corn")
-  val pizzaWithCorn = Pizza(pizza.size, pizza.toppings :+ Topping("Corn", 1))
+  val pizzaWithCorn = pizza.copy(toppings = pizza.toppings :+ Topping("Corn", 1))
   chooseToppings(pizzaWithCorn)
 }
 
 def addPineapple(pizza: Pizza): Pizza = {
   println("Adding Pineapple")
-  val pizzaWithPineapple = Pizza(pizza.size, pizza.toppings :+ Topping("Pineapple", 2))
+  val pizzaWithPineapple = pizza.copy(toppings = pizza.toppings :+ Topping("Pineapple", 2))
   chooseToppings(pizzaWithPineapple)
 }
 
 def addOnion(pizza: Pizza): Pizza = {
   println("Adding Onion")
-  val pizzaWithOnion = Pizza(pizza.size, pizza.toppings :+ Topping("Onion", 1))
+  val pizzaWithOnion = pizza.copy(toppings = pizza.toppings :+ Topping("Onion", 1))
   chooseToppings(pizzaWithOnion)
 }
 
 def addHam(pizza: Pizza): Pizza = {
   println("Adding Ham")
-  val pizzaWithHam = Pizza(pizza.size, pizza.toppings :+ Topping("Ham", 3))
+  val pizzaWithHam = pizza.copy(toppings = pizza.toppings :+ Topping("Ham", 3))
   chooseToppings(pizzaWithHam)
 }
 
 def addMushrooms(pizza: Pizza): Pizza = {
   println("Adding Mushrooms")
-  val pizzaWithMushrooms = Pizza(pizza.size, pizza.toppings :+ Topping("Mushrooms", 2))
+  val pizzaWithMushrooms = pizza.copy(toppings = pizza.toppings :+ Topping("Mushrooms", 2))
   chooseToppings(pizzaWithMushrooms)
 }
 
