@@ -1,41 +1,5 @@
-class UserChoice(
-  val text: String,
-  val choices: List[(String, (Pizza) => Pizza)]
-)
-
-class Pizza(
-  val size: Size,
-  val toppings: List[Topping]
-)
-
-enum Size(val price: Int) {
-  case Undefined extends Size(0)
-  case Small extends Size(5)
-  case Medium extends Size(7)
-  case Large extends Size(10)
-}
-
-class Topping(
-   val name: String,
-   val price: Int
-)
-
-def offerUserChoice(userChoice: UserChoice): (Pizza) => Pizza = {
-  printUserChoice(userChoice)
-
-  val input = Console.in.readLine().toInt
-  val tuple = userChoice.choices(input - 1)
-  val (_, choiceAction) = tuple
-  choiceAction
-}
-
-
-def printUserChoice(userChoice: UserChoice): Unit = {
-  println(userChoice.text)
-  for ((choice, _) <- userChoice.choices) {
-    println(choice)
-  }
-}
+import model.{Pizza, Size, Topping}
+import console.{UserChoice, offerUserChoice}
 
 @main def main(): Unit = {
   println("Welcome to our pizzeria!")
