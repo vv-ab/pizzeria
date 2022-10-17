@@ -65,7 +65,7 @@ def chooseToppings(pizza: Pizza): Pizza = {
     .map({ (topping, index) => (s"${index + 1}: ${topping.name}", addTopping(topping)) })
   val userChoice = UserChoice(
     "What toppings would you like?",
-    choices :+ (s"${choices.size + 1}: finish", finish)
+    choices :+ (s"${choices.size + 1}: finish", finishToppings)
   )
   val choiceAction = offerUserChoice(userChoice)
 
@@ -78,7 +78,7 @@ def addTopping(topping: Topping)(pizza: Pizza): Pizza = {
   chooseToppings(newPizza)
 }
 
-def finish(pizza: Pizza): Pizza = {
+def finishToppings(pizza: Pizza): Pizza = {
   pizza
 }
 
