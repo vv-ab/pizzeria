@@ -1,5 +1,6 @@
 import model.{Pizza, Size, Topping}
 import console.{UserChoice, offerUserChoice}
+import scala.io.Source
 
 @main def main(): Unit = {
   println("Welcome to our pizzeria!")
@@ -14,7 +15,7 @@ import console.{UserChoice, offerUserChoice}
   val choiceAction = offerUserChoice(userChoice)
 
   val pizza = choiceAction(Pizza(Size.Undefined, List()))
-  println(s"Your pizza: ${pizza.size} ${pizza.toppings.map({ topping => topping.name }).mkString(", ")}")
+  println(s"Your pizza: ${pizza.size}, ${pizza.toppings.map({ topping => topping.name }).mkString(", ")}")
   val toppingPrice = pizza.toppings.map({ topping => topping.price }).sum
   val price = pizza.size.price + toppingPrice
   println(s"Your pizza is: $price €")
@@ -58,52 +59,38 @@ def makeLargePizza(pizza: Pizza): Pizza = {
 }
 
 def chooseToppings(pizza: Pizza): Pizza = {
+  val toppings: List[Topping] = readToppings("toppings.csv")
+  val toppingsWithIndices: List[(Topping, Int)] = toppings.zipWithIndex
+  val choices: List[(String, Pizza => Pizza)] = toppingsWithIndices
+    .map({ (topping, index) => (s"${index + 1}: ${topping.name}", addTopping(topping)) })
   val userChoice = UserChoice(
     "What toppings would you like?",
-    List(
-      ("1: Corn", addCorn),
-      ("2: Pineapple", addPineapple),
-      ("3: Onion", addOnion),
-      ("4: Ham", addHam),
-      ("5: Mushrooms", addMushrooms),
-      ("6: Finish", finish)
-    )
+    choices :+ (s"${choices.size + 1}: finish", finish)
   )
   val choiceAction = offerUserChoice(userChoice)
 
   choiceAction(pizza)
 }
 
-def addCorn(pizza: Pizza): Pizza = {
-  println("Adding Corn")
-  val pizzaWithCorn = pizza.copy(toppings = pizza.toppings :+ Topping("Corn", 1))
-  chooseToppings(pizzaWithCorn)
-}
-
-def addPineapple(pizza: Pizza): Pizza = {
-  println("Adding Pineapple")
-  val pizzaWithPineapple = pizza.copy(toppings = pizza.toppings :+ Topping("Pineapple", 2))
-  chooseToppings(pizzaWithPineapple)
-}
-
-def addOnion(pizza: Pizza): Pizza = {
-  println("Adding Onion")
-  val pizzaWithOnion = pizza.copy(toppings = pizza.toppings :+ Topping("Onion", 1))
-  chooseToppings(pizzaWithOnion)
-}
-
-def addHam(pizza: Pizza): Pizza = {
-  println("Adding Ham")
-  val pizzaWithHam = pizza.copy(toppings = pizza.toppings :+ Topping("Ham", 3))
-  chooseToppings(pizzaWithHam)
-}
-
-def addMushrooms(pizza: Pizza): Pizza = {
-  println("Adding Mushrooms")
-  val pizzaWithMushrooms = pizza.copy(toppings = pizza.toppings :+ Topping("Mushrooms", 2))
-  chooseToppings(pizzaWithMushrooms)
+def addTopping(topping: Topping)(pizza: Pizza): Pizza = {
+  println(s"Adding ${topping.name}")
+  val newPizza = pizza.copy(toppings = pizza.toppings :+ topping)
+  chooseToppings(newPizza)
 }
 
 def finish(pizza: Pizza): Pizza = {
   pizza
+}
+
+def readToppings(sourceFile: String): List[Topping] = {
+  val source = Source.fromFile(sourceFile)
+  val lines = source.getLines()
+  val toppings = lines.map({ line =>
+    val split = line.split(",")
+    val name = split(0)
+    val price = split(1)
+    Topping(name, price.toInt)
+  }).toList
+  source.close()
+  toppings
 }
